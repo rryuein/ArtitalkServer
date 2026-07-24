@@ -37,13 +37,14 @@ test('Query.find sends LeanCloud-style query parameters to the API', async () =>
   AV.init({ serverURL: 'https://example.com' });
   const query = new AV.Query('shuoshuo');
   query.equalTo('objectId', 'talk1');
-  query.descending('createdAt');
+  query.descending('isPinned');
+  query.addDescending('createdAt');
   query.limit(5);
   query.skip(10);
   const results = await query.find();
 
   assert.equal(results[0].id, 'talk1');
-  assert.equal(calls[0], 'https://example.com/api/classes/shuoshuo?where=%7B%22objectId%22%3A%22talk1%22%7D&order=-createdAt&limit=5&skip=10');
+  assert.equal(calls[0], 'https://example.com/api/classes/shuoshuo?where=%7B%22objectId%22%3A%22talk1%22%7D&order=-isPinned%2C-createdAt&limit=5&skip=10');
 });
 
 test('Object.save creates and updates records through the API', async () => {
