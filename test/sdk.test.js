@@ -3,9 +3,18 @@ const fs = require('node:fs');
 const path = require('node:path');
 const test = require('node:test');
 const vm = require('node:vm');
+const typescript = require('typescript');
 
 function loadSdk(fetchImpl) {
-  const source = fs.readFileSync(path.join(__dirname, '../../src/plugins', 'artitalk-av.js'), 'utf8');
+  const sourcePath = path.join(__dirname, '../../src/plugins', 'artitalk-av.ts');
+  const source = fs.readFileSync(sourcePath, 'utf8');
+  const output = typescript.transpileModule(source, {
+    compilerOptions: {
+      module: typescript.ModuleKind.None,
+      target: typescript.ScriptTarget.ES2015
+    },
+    fileName: sourcePath
+  }).outputText;
   const storage = {};
   const context = {
     fetch: fetchImpl,
@@ -18,7 +27,7 @@ function loadSdk(fetchImpl) {
     window: {}
   };
   context.window = context;
-  vm.runInNewContext(source, context);
+  vm.runInNewContext(output, context);
   return context.AV;
 }
 
