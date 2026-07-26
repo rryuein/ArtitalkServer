@@ -1,6 +1,6 @@
 # Artitalk Vercel 服务端
 
-这个目录用于部署 Artitalk 的 Vercel 服务端，用 Neon Postgres 替代即将下线的 LeanCloud 服务。
+这个目录用于部署 [Artitalk](https://github.com/HCLonely/Artitalk) 的 Vercel 服务端，用 Neon Postgres 替代即将下线的 LeanCloud 服务。
 
 ## 环境变量
 
